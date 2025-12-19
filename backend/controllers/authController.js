@@ -3,7 +3,7 @@ const generateToken = require("../utils/generateToken");
 
 const cookieOptions = {
   httpOnly: true,
-  secure: false,
+  secure: true,
   sameSite: "lax",
   // maxAge will be set when cookie is set
 };
@@ -51,7 +51,7 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie("token", { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production" });
+  res.clearCookie("token", { httpOnly: true, sameSite: "lax", secure: true });
   res.json({ message: "Logged out" });
 };
 
