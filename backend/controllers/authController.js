@@ -3,7 +3,7 @@ const generateToken = require("../utils/generateToken");
 
 const cookieOptions = {
   httpOnly: true,
-  secure: "false",
+  secure: false,
   sameSite: "lax",
   // maxAge will be set when cookie is set
 };

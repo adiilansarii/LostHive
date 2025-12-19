@@ -28,11 +28,6 @@ app.use(cors({
 // Serve uploads and any frontend static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Basic logging print method and path in console
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
-  next();
-});
 
 // Routes
 app.use("/auth", authRoutes);

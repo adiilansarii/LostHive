@@ -54,7 +54,7 @@ exports.updateItem = async (req, res) => {
     if (!item) return res.status(404).json({ message: "Item not found" });
     if (String(item.owner) !== String(req.user._id)) return res.status(403).json({ message: "Forbidden" });
 
-    // If new photo uploaded, remove old file (optional)
+    // If new photo uploaded, remove old file
     if (req.file && item.photo) {
       const oldPath = path.join(__dirname, "..", "public", item.photo);
       fs.unlink(oldPath, (err) => { /* ignore errors */ });

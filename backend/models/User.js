@@ -17,7 +17,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Static: match password and generate token example moved to controller, but keep helper method for compare
+// Static: match password and generate token moved to controller, but keep helper method for compare
 userSchema.methods.matchPassword = async function (plain) {
   return bcrypt.compare(plain, this.password);
 };
