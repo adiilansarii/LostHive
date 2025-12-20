@@ -1,85 +1,93 @@
-# LostHive – Campus Lost & Found Portal
+# LostHive 🐝  
+### A Smart Campus Lost & Found System
 
-LostHive is a full-stack web application designed to help students **report, search, and recover lost items** during college events and daily campus activities.  
-The platform focuses on **fast discovery, accurate identification, and smooth user experience**.
-
----
-
-## 🚀 Features
-
-- Report lost or found items with detailed descriptions  
-- Upload item images for better identification  
-- Search and filter items using multiple parameters  
-- Secure authentication using JWT  
-- Responsive and user-friendly interface  
+LostHive is a web-based solution that helps students **quickly report, discover, and recover lost items** during college events and daily campus life.  
+The system emphasizes **speed, clarity, and accurate identification** to improve real-world recovery outcomes.
 
 ---
 
-## 🖼️ Screenshots
+## ✨ What LostHive Solves
 
-> 📌 Create a folder named `screenshots/` in the project root and add images as shown below.
+- Eliminates manual lost-item notices and word-of-mouth searches  
+- Centralizes lost and found reports in one searchable platform  
+- Improves recovery chances through image-based identification  
 
-### Home Page
+---
+
+## 🔑 Key Capabilities
+
+- Create lost and found reports with detailed item information  
+- Upload item images using secure backend file handling  
+- Search and filter listings by category, location, and date  
+- Authenticated access to ensure genuine user activity  
+
+---
+
+## 📸 Application Preview
+
+> 📌 Add all screenshots inside a `screenshots/` folder at the project root.
+
+**Dashboard / Home View**  
 <!-- Add Home Page screenshot here -->
-![Home Page](./screenshots/home.png)
+![Dashboard](./screenshots/home.png)
 
-### Lost & Found Listings
+**Item Listings & Search Results**  
 <!-- Add Listings screenshot here -->
 ![Listings](./screenshots/listings.png)
 
-### Report Item (With Image Upload)
+**Report Lost or Found Item**  
 <!-- Add Report Item screenshot here -->
 ![Report Item](./screenshots/report.png)
 
-### Authentication (Login / Signup)
-<!-- Add Login / Signup screenshot here -->
-![Authentication](./screenshots/auth.png)
+**User Authentication**  
+<!-- Add Auth screenshot here -->
+![Auth](./screenshots/auth.png)
 
 ---
 
-## 🏗️ System Architecture
+## 🧠 How It Works
 
-- **Frontend:** Handles UI rendering, routing, and API communication  
-- **Backend:** RESTful APIs for item management and authentication  
-- **Database:** MongoDB for structured item and user data storage  
-- **File Handling:** Multer for secure image uploads  
-
----
-
-## ⚙️ Performance & Efficiency
-
-- Handles **200+ item listings** during campus events  
-- **Sub-400 ms** average API response time  
-- Optimized backend queries for fast search and filtering  
-- Efficient image handling to reduce load time  
+1. Users log in and report a lost or found item  
+2. Images and metadata are securely stored in the backend  
+3. Other users search listings using smart filters  
+4. Matching items are identified, improving recovery efficiency  
 
 ---
 
-## 🛠️ Tech Stack
+## ⚡ Performance Snapshot
 
-### Frontend
+- Supports **200+ item reports** during high-traffic events  
+- Delivers **sub-400 ms average API response time**  
+- Optimized queries ensure fast filtering and retrieval  
+- Efficient image uploads reduce server load  
+
+---
+
+## 🧰 Technology Overview
+
+**Client Side**
 - React.js  
 - Tailwind CSS / Bootstrap  
 
-### Backend
+**Server Side**
 - Node.js  
 - Express.js  
 - MongoDB  
 - JWT Authentication  
-- Multer (File Uploads)  
+- Multer (Image Uploads)  
 
-### Tools & Deployment
-- Git & GitHub  
+**Dev & Deployment**
+- Git, GitHub  
 - Postman  
 - Render  
 - Vercel  
 
 ---
 
-## 📂 Project Setup
+## 🗂️ Project Layout
 
-### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/losthive.git
-cd losthive
-
+LostHive/
+├── backend/        # APIs, authentication, uploads
+├── frontend/       # UI components and pages
+└── README.md
