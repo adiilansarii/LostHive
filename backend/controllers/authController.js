@@ -51,7 +51,8 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie("token", { httpOnly: true, sameSite: "lax", secure: true });
+  // Use the exact same options to ensure the browser identifies the correct cookie
+  res.clearCookie("token", { ...cookieOptions }); 
   res.json({ message: "Logged out" });
 };
 
