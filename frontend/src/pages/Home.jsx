@@ -1,56 +1,85 @@
-import ItemCard from "../components/ItemCard";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import api from "../api/axios.js";
+import ItemCard from "../components/ItemCard";
+import Loader from "../components/Loader";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Home() {
+  const [items, setItems] = useState([]);
+  const [loadingItems, setLoadingItems] = useState(true);
+  const { user, loading: authLoading } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      api.get("/items")
+        .then((res) => setItems(res.data.slice(0, 6)))
+        .finally(() => setLoadingItems(false));
+    } else {
+      setLoadingItems(false);
+    }
+  }, [user]);
+
+  if (authLoading) return <Loader />;
+
   return (
-    <div className="bg-gradient-to-b from-[#F29AAE]/30 to-white">
-      {/* HERO */}
-      <section className="text-center py-20 px-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-[#301CA0]">
-          FIND LOST ITEMS OR POST FOUND ITEMS EASILY
+    /* Main container now handles theme colors for the whole page */
+    <div className="bg-white dark:bg-black min-h-screen text-zinc-900 dark:text-white transition-colors duration-500">
+      
+      {/* HERO SECTION */}
+      <section className="relative pt-24 pb-32 px-6 overflow-hidden text-center">
+        {/* Dynamic Gradient Background */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#D91656]/10 dark:from-[#85193C]/20 via-transparent to-transparent -z-10" />
+        
+        <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-none uppercase">
+          RECLAIM WHAT IS <span className="text-[#D91656] italic">YOURS.</span>
         </h1>
-        <p className="mt-4 text-lg text-[#301CA0]/80">
-          Helping Students Reclaim Their Belongings
+        <p className="text-zinc-600 dark:text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium">
+          The community-driven hub for lost and found items. Secure, fast, and modern.
         </p>
 
-        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-          <Link
-            to="/create"
-            className="bg-[#7132CA] text-white px-8 py-3 rounded-lg shadow hover:bg-[#301CA0]"
-          >
-            Report a Lost Item
+        <div className="flex flex-col sm:flex-row justify-center gap-6">
+          <Link to="/create" className="bg-[#D91656] text-white px-10 py-4 rounded-xl font-black text-lg hover:bg-[#C5172E] transition-all shadow-lg dark:shadow-[0_0_30px_rgba(217,22,86,0.3)]">
+            REPORT LOST
           </Link>
-          <Link
-            to="/create"
-            className="bg-[#C47BE4] text-white px-8 py-3 rounded-lg shadow hover:bg-[#7132CA]"
-          >
-            Post a Found Item
+          <Link to="/create" className="bg-zinc-100 dark:bg-white text-black px-10 py-4 rounded-xl font-black text-lg hover:bg-zinc-200 transition-all">
+            POST FOUND
           </Link>
         </div>
-
-        <p className="mt-6 text-sm text-[#301CA0]/70">
-          Find your lost items or help others by posting recovered items anonymously.
-        </p>
       </section>
 
       {/* RECENT LISTINGS */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
-        <h2 className="text-2xl font-semibold text-center text-[#7132CA] mb-8">
-          Recent Listings
-        </h2>
+      <section className="max-w-7xl mx-auto px-6 pb-24">
+        {!user ? (
+          <div className="bg-zinc-50 dark:bg-[#4A102A]/30 border border-zinc-200 dark:border-[#D91656]/40 p-12 rounded-[40px] text-center">
+            <h2 className="text-2xl font-bold mb-4 dark:text-white">The Hive is Locked.</h2>
+            <p className="text-zinc-500 dark:text-gray-400 mb-6 font-medium">You must be a member to see the latest community findings.</p>
+            <Link to="/login" className="text-[#D91656] font-bold border-b-2 border-[#D91656] hover:text-[#85193C] transition-colors">Login to Enter</Link>
+          </div>
+        ) : (
+          <>
+            <div className="flex justify-between items-end mb-12">
+              <h2 className="text-3xl font-black uppercase tracking-tighter dark:text-white">New Entrees</h2>
+              <Link to="/items" className="text-[#D91656] font-bold hover:underline">View Full Archive →</Link>
+            </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {/* Example cards (replace with backend data later) */}
-          <ItemCard title="Grey Backpack" img="/sample/bag.jpg" />
-          <ItemCard title="Set of Keys" img="/sample/keys.jpg" />
-          <ItemCard title="Pair of Headphones" img="/sample/headphones.jpg" />
-        </div>
-
-        <div className="text-center mt-6">
-          <Link to="/" className="text-[#7132CA] font-medium hover:underline">
-            View More •
-          </Link>
-        </div>
+            {loadingItems ? <Loader /> : (
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {items.map((item) => (
+                  <div key={item._id} className="relative group ...">
+                    <Link to={`/items/${item._id}`}>
+                      <ItemCard 
+                        title={item.title} 
+                        img={item.photo ? `${import.meta.env.VITE_API_BASE_URL}${item.photo}` : "/sample/default.jpg"} 
+                        location={item.location} //
+                      />
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </section>
     </div>
   );

@@ -8,7 +8,9 @@ import Signup from "./pages/Signup";
 import ItemDetails from "./pages/ItemDetails";
 import CreateItem from "./pages/CreateItem";
 import UpdateItem from "./pages/UpdateItem";
+import AllItems from "./pages/AllItems";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import MyAccount from "./pages/MyAccount";
 
 export default function App() {
   return (
@@ -21,7 +23,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/items/:id" element={<ItemDetails />} />
-
+          <Route path="/items" element={<AllItems />} />
           <Route
             path="/create"
             element={
@@ -30,7 +32,14 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <MyAccount />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/items/:id/edit"
             element={

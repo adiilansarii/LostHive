@@ -1,2 +1,11 @@
 @import "tailwindcss";
 
+/* This tells Tailwind v4 to use the .dark class on the <html> tag */
+@variant dark (&:where(.dark, .dark *));
+
+/* You can also define your new theme colors as CSS variables here */
+@theme {
+  --color-crimson: #D91656;
+  --color-maroon: #4A102A;
+  --color-deep-red: #85193C;
+}
