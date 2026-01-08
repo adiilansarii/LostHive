@@ -27,9 +27,12 @@ export default function MyAccount() {
                 <h1 className="text-3xl font-black tracking-tight uppercase">{user.name}</h1>
                 <p className="text-crimson font-bold text-sm tracking-widest uppercase">{user.email}</p>
               </div>
-              <Link to="/items" className="block w-full bg-zinc-900 dark:bg-white text-white dark:text-black text-center py-4 rounded-2xl font-black hover:scale-105 transition-transform uppercase tracking-tighter">
+              <Link 
+                to="/items?filter=mine" 
+                className="block w-full bg-zinc-900 dark:bg-white text-white dark:text-black text-center py-4 rounded-2xl font-black hover:scale-105 transition-transform uppercase tracking-tighter"
+                >
                 View My Postings
-              </Link>
+                </Link>
             </div>
           </div>
         </div>
