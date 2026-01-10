@@ -6,6 +6,7 @@ The system emphasizes **speed, clarity, and accurate identification** to improve
 
 ---
 
+
 ## ✨ What LostHive Solves
 
 - Eliminates manual lost-item notices and word-of-mouth searches  
@@ -29,7 +30,8 @@ The system emphasizes **speed, clarity, and accurate identification** to improve
 
 **Dashboard / Home View**  
 <!-- Add Home Page screenshot here -->
-![Dashboard](./screenshots/home.png)
+<img width="1920" height="1080" alt="Screenshot 2026-01-10 133056" src="https://github.com/user-attachments/assets/336c619c-234c-414a-b048-dbdf51d980d2" />
+
 
 **Item Listings & Search Results**  
 <!-- Add Listings screenshot here -->
