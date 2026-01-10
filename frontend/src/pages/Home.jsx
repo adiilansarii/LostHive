@@ -20,24 +20,27 @@ export default function Home() {
     }
   }, [user]);
 
+  // Robust URL Builder
+  const getImageUrl = (path) => {
+    if (!path) return "/sample/default.jpg";
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+    const cleanBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+    const cleanPath = path.startsWith("/") ? path : `/${path}`;
+    return `${cleanBase}${cleanPath}`;
+  };
+
   if (authLoading) return <Loader />;
 
   return (
-    /* Main container now handles theme colors for the whole page */
     <div className="bg-white dark:bg-black min-h-screen text-zinc-900 dark:text-white transition-colors duration-500">
-      
-      {/* HERO SECTION */}
       <section className="relative pt-24 pb-32 px-6 overflow-hidden text-center">
-        {/* Dynamic Gradient Background */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#D91656]/10 dark:from-[#85193C]/20 via-transparent to-transparent -z-10" />
-        
         <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-none uppercase">
           RECLAIM WHAT IS <span className="text-[#D91656] italic">YOURS.</span>
         </h1>
         <p className="text-zinc-600 dark:text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-medium">
           The community-driven hub for lost and found items. Secure, fast, and modern.
         </p>
-
         <div className="flex flex-col sm:flex-row justify-center gap-6">
           <Link to="/create" className="bg-[#D91656] text-white px-10 py-4 rounded-xl font-black text-lg hover:bg-[#C5172E] transition-all shadow-lg dark:shadow-[0_0_30px_rgba(217,22,86,0.3)]">
             REPORT LOST
@@ -48,7 +51,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* RECENT LISTINGS */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
         {!user ? (
           <div className="bg-zinc-50 dark:bg-[#4A102A]/30 border border-zinc-200 dark:border-[#D91656]/40 p-12 rounded-[40px] text-center">
@@ -62,19 +64,16 @@ export default function Home() {
               <h2 className="text-3xl font-black uppercase tracking-tighter dark:text-white">New Entrees</h2>
               <Link to="/items" className="text-[#D91656] font-bold hover:underline">View Full Archive →</Link>
             </div>
-
             {loadingItems ? <Loader /> : (
              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {items.map((item) => (
-                  <div key={item._id} className="relative group ...">
-                    <Link to={`/items/${item._id}`}>
-                      <ItemCard 
-                        title={item.title} 
-                        img={item.photo ? `${import.meta.env.VITE_API_BASE_URL}${item.photo}` : "/sample/default.jpg"} 
-                        location={item.location} //
-                      />
-                    </Link>
-                  </div>
+                  <Link key={item._id} to={`/items/${item._id}`}>
+                    <ItemCard 
+                      title={item.title} 
+                      img={getImageUrl(item.photo)} 
+                      location={item.location} 
+                    />
+                  </Link>
                 ))}
               </div>
             )}
