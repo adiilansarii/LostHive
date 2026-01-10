@@ -1,6 +1,6 @@
 # LostHive 🐝  
 ### A Smart Campus Lost & Found System
-
+## https://lost-hive.vercel.app/
 LostHive is a web-based solution that helps students **quickly report, discover, and recover lost items** during college events and daily campus life.  
 The system emphasizes **speed, clarity, and accurate identification** to improve real-world recovery outcomes.
 
@@ -35,15 +35,16 @@ The system emphasizes **speed, clarity, and accurate identification** to improve
 
 **Item Listings & Search Results**  
 <!-- Add Listings screenshot here -->
-![Listings](./screenshots/listings.png)
+<img width="1920" height="1080" alt="all items" src="https://github.com/user-attachments/assets/8fae3dc2-01a5-489b-835a-5cf114ebf964" />
 
 **Report Lost or Found Item**  
 <!-- Add Report Item screenshot here -->
-![Report Item](./screenshots/report.png)
+<img width="1920" height="1080" alt="create item" src="https://github.com/user-attachments/assets/2cea37e0-0ee6-4503-ab6e-8eabfcd6abab" />
 
 **User Authentication**  
 <!-- Add Auth screenshot here -->
-![Auth](./screenshots/auth.png)
+<img width="1920" height="1080" alt="login" src="https://github.com/user-attachments/assets/80fce116-65f7-45be-8387-9a26e8821b54" />
+<img width="1920" height="1080" alt="signup" src="https://github.com/user-attachments/assets/fe4b59f7-4bbe-40f4-9b16-25a056c042bf" />
 
 ---
 
