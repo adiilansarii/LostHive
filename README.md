@@ -1,15 +1,15 @@
-# LostHive 
+# Grabit 
 ### A Smart Campus Lost & Found System
 🔗 **Project Link:**  
 https://lost-hive.vercel.app/
 
-LostHive is a web-based solution that helps students **quickly report, discover, and recover lost items** during college events and daily campus life.  
+Grabit is a web-based solution that helps students **quickly report, discover, and recover lost items** during college events and daily campus life.  
 The system emphasizes **speed, clarity, and accurate identification** to improve real-world recovery outcomes.
 
 ---
 
 
-## ✨ What LostHive Solves
+## ✨ What Grabit Solves
 
 - Eliminates manual lost-item notices and word-of-mouth searches  
 - Centralizes lost and found reports in one searchable platform  
@@ -87,12 +87,9 @@ The system emphasizes **speed, clarity, and accurate identification** to improve
 - Render  
 - Vercel  
 
----
-
-## 🗂️ Project Layout
 
 ```bash
-LostHive/
+Grabit/
 ├── backend/        # APIs, authentication, uploads
 ├── frontend/       # UI components and pages
 └── README.md
