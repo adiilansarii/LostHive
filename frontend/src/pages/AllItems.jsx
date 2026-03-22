@@ -15,9 +15,8 @@ export default function AllItems() {
   const getImageUrl = (path) => {
     if (!path) return "/sample/default.jpg";
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `${cleanBase}${cleanPath}`;
+    return `${baseUrl}${cleanPath}`;
   };
 
   useEffect(() => {

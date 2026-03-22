@@ -8,7 +8,7 @@ export default function Navbar() {
   const { user, setUser, loading, theme, toggleTheme } = useContext(AuthContext);
   const navigate = useNavigate();
   
-  // Create a ref for the entire header/navbar
+  // Create a ref for the entire navbar
   const navRef = useRef(null);
 
   // Close the menu when clicking outside
@@ -25,7 +25,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await api.post("/auth/logout");
-      setUser(null);
+      setUser(null);q
       setOpen(false); // Close menu on logout
       navigate("/login");
     } catch (err) {
@@ -44,7 +44,7 @@ export default function Navbar() {
             className="w-16 h-auto object-contain transition-transform duration-300 group-hover:scale-110" 
           />
           <span className="text-2xl font-black tracking-tighter text-black dark:text-white leading-none">
-            LOST<span className="text-[#D91656]">HIVE</span>
+            GRAB<span className="text-[#D91656]">IT</span>
           </span>
         </Link>
 

@@ -17,7 +17,7 @@ export default function MyAccount() {
           
           <div className="px-10 pb-10">
             <div className="relative -mt-16 mb-6">
-              <div className="w-32 h-32 bg-white dark:bg-zinc-800 border-8 border-zinc-50 dark:border-zinc-900 rounded-full flex items-center justify-center text-4xl font-black text-crimson shadow-xl">
+              <div className="uppercase w-32 h-32 bg-white dark:bg-zinc-800 border-8 border-zinc-50 dark:border-zinc-900 rounded-full flex items-center justify-center text-4xl font-black text-crimson shadow-xl">
                 {user.name.charAt(0)}
               </div>
             </div>
@@ -25,7 +25,7 @@ export default function MyAccount() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl font-black tracking-tight uppercase">{user.name}</h1>
-                <p className="text-crimson font-bold text-sm tracking-widest uppercase">{user.email}</p>
+                <p className="text-crimson font-bold text-  m tracking-widest">{user.email}</p>
               </div>
               <Link 
                 to="/items?filter=mine" 

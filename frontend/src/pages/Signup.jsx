@@ -34,8 +34,8 @@ export default function Signup() {
           <input type="password" className="w-full bg-white dark:bg-black/60 border border-zinc-200 dark:border-white/10 p-4 rounded-2xl text-black dark:text-white outline-none focus:border-crimson transition" placeholder="Create Password" onChange={(e) => setForm({ ...form, password: e.target.value })} required />
         </div>
 
-        <button className="w-full bg-crimson text-white py-4 rounded-2xl font-black text-lg mt-8 hover:shadow-lg transition-all uppercase tracking-tighter">
-          Initialize Account
+        <button className="w-full bg-crimson text-white py-4 rounded-2xl font-black text-lg mt-8 hover:shadow-lg transition-all uppercase tracking-wide">
+          Sign Up
         </button>
       </form>
     </div>

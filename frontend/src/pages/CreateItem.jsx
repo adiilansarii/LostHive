@@ -5,7 +5,7 @@ import api from "../api/axios.js";
 export default function CreateItem() {
   const navigate = useNavigate();
   // Added description to the initial state
-  const [form, setForm] = useState({ title: "", description: "", location: "", type: "lost" });
+  const [form, setForm] = useState({ title: "", description: "", location: "", contact: "", type: "lost" });
   const [photo, setPhoto] = useState(null);
 
   const submit = async (e) => {
@@ -53,6 +53,18 @@ export default function CreateItem() {
               className="w-full bg-white dark:bg-black border border-zinc-200 dark:border-white/10 p-4 rounded-2xl text-black dark:text-white outline-none focus:border-[#D91656] transition"
               placeholder="Where did it happen?"
               onChange={(e) => setForm({ ...form, location: e.target.value })}
+            />
+          </div>
+                    <div className="space-y-1">
+            <label className="text-xs font-black uppercase tracking-widest text-[#D91656] ml-2">
+              Contact No
+            </label>
+            <input
+              type="tel"
+              className="w-full bg-white dark:bg-black border border-zinc-200 dark:border-white/10 p-4 rounded-2xl text-black dark:text-white outline-none focus:border-[#D91656] transition"
+              placeholder="Enter your contact number"
+              onChange={(e) => setForm({ ...form, contact: e.target.value })}
+              required
             />
           </div>
 

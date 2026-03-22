@@ -12,7 +12,7 @@ export default function ItemDetails() {
 
   // Helper to prevent double slashes and handle missing Base URL
   const getImageUrl = (path) => {
-    if (!path) return "/sample/default.jpg";
+    if (!path) return "/default.jpeg";
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
     const cleanBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
@@ -31,8 +31,7 @@ export default function ItemDetails() {
     <div className="min-h-screen bg-white dark:bg-black text-zinc-900 dark:text-white py-16 px-6 transition-colors duration-500">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         
-        {/* Cinematic Image Container */}
-        <div className="relative group rounded-[40px] overflow-hidden border border-zinc-200 dark:border-white/10 shadow-2xl">
+        <div className="relative group rounded-[30px] overflow-hidden border border-zinc-200 dark:border-white/10 shadow-2xl">
           <img
             src={getImageUrl(item.photo)}
             alt={item.title}
@@ -50,7 +49,6 @@ export default function ItemDetails() {
               {item.title}
             </h1>
             
-            {/* UPDATED: Vector Location Icon */}
             <div className="flex items-center gap-2 text-2xl font-bold text-[#D91656] tracking-tight">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -67,19 +65,32 @@ export default function ItemDetails() {
           </div>
 
           <div className="bg-zinc-50 dark:bg-zinc-900/50 p-8 rounded-[30px] border border-zinc-200 dark:border-white/5">
-            <h4 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-gray-500 mb-4">Description</h4>
+            <h4 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-gray-500 mb-4">
+              Description
+            </h4>
             <p className="text-zinc-700 dark:text-gray-300 leading-relaxed text-lg">
               {item.description || "No additional details provided for this entry."}
             </p>
           </div>
 
+          <div className="bg-zinc-50 dark:bg-zinc-900/50 p-6 rounded-[24px] border border-zinc-200 dark:border-white/5">
+            <h4 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 dark:text-gray-500 mb-2">
+              Contact No
+            </h4>
+            <p className="text-lg font-bold text-[#D91656] tracking-wide">
+              {item.contact || "Not provided"}
+            </p>
+          </div>
+
           <div className="flex items-center gap-4 p-6 bg-zinc-100 dark:bg-[#4A102A]/20 rounded-2xl border border-zinc-200 dark:border-[#D91656]/20">
-            <div className="w-10 h-10 bg-[#D91656] rounded-full flex items-center justify-center font-black text-white">
-              {item.owner?.name?.charAt(0) || "H"}
+            <div className="w-10 h-10 bg-[#D91656] rounded-full flex items-center justify-center font-black text-white uppercase">
+              {item.owner?.name?.charAt(0) || "U"}
             </div>
             <div>
               <p className="text-xs text-zinc-500 uppercase font-black">Posted By</p>
-              <p className="font-bold text-black dark:text-white">{item.owner?.name || "Hive Member"}</p>
+              <p className="font-bold text-black dark:text-white">
+                {item.owner?.name || "Hive Member"}
+              </p>
             </div>
           </div>
 
@@ -95,7 +106,7 @@ export default function ItemDetails() {
                 onClick={async () => {
                   if(window.confirm("Delete this entry permanently?")) {
                     await api.delete(`/items/${id}`);
-                    navigate("/");
+                    navigate("/items");
                   }
                 }}
                 className="flex-1 border-2 border-[#D91656] text-[#D91656] py-4 rounded-2xl font-black hover:bg-[#D91656] hover:text-white transition-all uppercase tracking-tighter"

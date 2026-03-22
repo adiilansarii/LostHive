@@ -22,11 +22,10 @@ export default function Home() {
 
   // Robust URL Builder
   const getImageUrl = (path) => {
-    if (!path) return "/sample/default.jpg";
+    if (!path) return "/default.jpeg";
     const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-    const cleanBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
-    return `${cleanBase}${cleanPath}`;
+    return `${baseUrl}${cleanPath}`;
   };
 
   if (authLoading) return <Loader />;
@@ -54,7 +53,7 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-6 pb-24">
         {!user ? (
           <div className="bg-zinc-50 dark:bg-[#4A102A]/30 border border-zinc-200 dark:border-[#D91656]/40 p-12 rounded-[40px] text-center">
-            <h2 className="text-2xl font-bold mb-4 dark:text-white">The Hive is Locked.</h2>
+            <h2 className="text-2xl font-bold mb-4 dark:text-white">The Item is Locked.</h2>
             <p className="text-zinc-500 dark:text-gray-400 mb-6 font-medium">You must be a member to see the latest community findings.</p>
             <Link to="/login" className="text-[#D91656] font-bold border-b-2 border-[#D91656] hover:text-[#85193C] transition-colors">Login to Enter</Link>
           </div>
@@ -67,9 +66,9 @@ export default function Home() {
             {loadingItems ? <Loader /> : (
              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {items.map((item) => (
-                  <Link key={item._id} to={`/items/${item._id}`}>
+                  <Link className="dark:shadow-[0_0_7px_rgba(217,22,86,0.25)] dark:rounded-2xl" key={item._id} to={`/items/${item._id}`}>
                     <ItemCard 
-                      title={item.title} 
+                      title={item.title}
                       img={getImageUrl(item.photo)} 
                       location={item.location} 
                     />
