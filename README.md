@@ -87,10 +87,10 @@ The system emphasizes **speed, clarity, and accurate identification** to improve
 - Render  
 - Vercel  
 
-Developed by Adil Ansari
-
 ```bash
 Grabit/
 ├── backend/        # APIs, authentication, uploads
 ├── frontend/       # UI components and pages
 └── README.md
+```
+Developed by Adil Ansari
