@@ -3,21 +3,13 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import api from "../api/axios.js";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/Loader";
+import { getImageUrl } from "../utils/getImageUrl";
 
 export default function ItemDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [item, setItem] = useState(null);
-
-  // Helper to prevent double slashes and handle missing Base URL
-  const getImageUrl = (path) => {
-    if (!path) return "/default.jpeg";
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-    const cleanBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
-    const cleanPath = path.startsWith("/") ? path : `/${path}`;
-    return `${cleanBase}${cleanPath}`;
-  };
 
   useEffect(() => {
     api.get(`/items/${id}`).then((res) => setItem(res.data));

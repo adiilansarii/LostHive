@@ -1,17 +1,15 @@
 require("dotenv").config();
 const express = require("express");
-const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const path = require("path");
-const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser");
 
-const authRoutes = require("./routes/authRoutes");
+const { connectDB } = require("./config/db"); // Correct import
 const itemRoutes = require("./routes/itemRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Connect DB
+// Connect to MongoDB
 connectDB(process.env.MONGO_URI);
 
 // Middleware
@@ -19,28 +17,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// CORS - allow your frontend origin here
-app.use(cors({
-  origin: true, // or specify "http://localhost:3000"
-  credentials: true
-}));
-
-// Serve uploads and any frontend static files
-app.use(express.static(path.join(__dirname, "public")));
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // Routes
-app.use("/auth", authRoutes);
 app.use("/items", itemRoutes);
+app.use("/auth", authRoutes);
 
-// Default route
-app.get("/", (req, res) => res.json({ message: "Lost & Found API is running" }));
-
-app.use((err, req, res, next) => {
-  console.error("Unhandled error:", err);
-  res.status(500).json({ message: err.message || "Server error" });
+// Health Check Route
+app.get("/", (req, res) => {
+  res.send("GRABIT API with MongoDB GridFS is running...");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+// Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
+);

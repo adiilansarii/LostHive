@@ -4,6 +4,7 @@ import api from "../api/axios.js";
 import ItemCard from "../components/ItemCard";
 import Loader from "../components/Loader";
 import { AuthContext } from "../context/AuthContext";
+import { getImageUrl } from "../utils/getImageUrl";
 
 export default function Home() {
   const [items, setItems] = useState([]);
@@ -19,14 +20,6 @@ export default function Home() {
       setLoadingItems(false);
     }
   }, [user]);
-
-  // Robust URL Builder
-  const getImageUrl = (path) => {
-    if (!path) return "/default.jpeg";
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-    const cleanPath = path.startsWith("/") ? path : `/${path}`;
-    return `${baseUrl}${cleanPath}`;
-  };
 
   if (authLoading) return <Loader />;
 

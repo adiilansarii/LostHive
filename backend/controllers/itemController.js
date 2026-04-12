@@ -1,97 +1,109 @@
+const mongoose = require("mongoose");
 const Item = require("../models/Item");
-const fs = require("fs");
-const path = require("path");
+const { getGFS } = require("../config/db");
 
+// Create Item
 exports.createItem = async (req, res) => {
   try {
-    const { title, description, location, type, dateFoundOrLost } = req.body;
-    if (!title || !type) return res.status(400).json({ message: "Title and type are required" });
-    const photoPath = req.file ? `/uploads/${req.file.filename}` : "";
-
-    const item = new Item({
+    const {
       title,
       description,
       location,
       type,
+      contact,
+      dateFoundOrLost,
+    } = req.body;
+
+    let fileId = null;
+
+    if (req.file) {
+      const gfs = getGFS();
+      const uploadStream = gfs.openUploadStream(req.file.originalname, {
+        contentType: req.file.mimetype,
+      });
+
+      uploadStream.end(req.file.buffer);
+      fileId = uploadStream.id;
+    }
+
+    const item = await Item.create({
+      title,
+      description,
+      location,
+      contact,
+      type,
       dateFoundOrLost: dateFoundOrLost || Date.now(),
-      photo: photoPath,
-      owner: req.user._id
+      photo: fileId,
+      owner: req.user._id,
     });
 
-    await item.save();
     res.status(201).json(item);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
+// Get All Items
 exports.listItems = async (req, res) => {
   try {
-    // Simple list. Optionally add filters (type, location), pagination
-    const items = await Item.find().populate("owner", "name email").sort({ createdAt: -1 });
+    const items = await Item.find()
+      .populate("owner", "name email")
+      .sort({ createdAt: -1 });
     res.json(items);
-  } catch (err) {
-    console.error(err);
+  } catch {
     res.status(500).json({ message: "Server error" });
   }
 };
 
+// Get Single Item
 exports.getItem = async (req, res) => {
   try {
-    const item = await Item.findById(req.params.id).populate("owner", "name email");
+    const item = await Item.findById(req.params.id).populate(
+      "owner",
+      "name email"
+    );
     if (!item) return res.status(404).json({ message: "Item not found" });
     res.json(item);
-  } catch (err) {
-    console.error(err);
+  } catch {
     res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.updateItem = async (req, res) => {
+// Stream Image from MongoDB
+exports.getItemImage = async (req, res) => {
   try {
-    const item = await Item.findById(req.params.id);
-    if (!item) return res.status(404).json({ message: "Item not found" });
-    if (String(item.owner) !== String(req.user._id)) return res.status(403).json({ message: "Forbidden" });
+    const gfs = getGFS();
+    const fileId = new mongoose.Types.ObjectId(req.params.id);
 
-    // If new photo uploaded, remove old file
-    if (req.file && item.photo) {
-      const oldPath = path.join(__dirname, "..", "public", item.photo);
-      fs.unlink(oldPath, (err) => { /* ignore errors */ });
-      item.photo = `/uploads/${req.file.filename}`;
-    }
+    const downloadStream = gfs.openDownloadStream(fileId);
+    downloadStream.on("error", () =>
+      res.status(404).json({ message: "Image not found" })
+    );
 
-    // Update fields
-    item.title = req.body.title ?? item.title;
-    item.description = req.body.description ?? item.description;
-    item.location = req.body.location ?? item.location;
-    item.type = req.body.type ?? item.type;
-    if (req.body.dateFoundOrLost) item.dateFoundOrLost = req.body.dateFoundOrLost;
-
-    await item.save();
-    res.json(item);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    downloadStream.pipe(res);
+  } catch {
+    res.status(404).json({ message: "Invalid image ID" });
   }
 };
 
+// Delete Item
 exports.deleteItem = async (req, res) => {
   try {
+    const gfs = getGFS();
     const item = await Item.findById(req.params.id);
-    if (!item) return res.status(404).json({ message: "Item not found" });
-    if (String(item.owner) !== String(req.user._id)) return res.status(403).json({ message: "Forbidden" });
 
-    // Remove photo file
+    if (!item) return res.status(404).json({ message: "Item not found" });
+    if (String(item.owner) !== String(req.user._id))
+      return res.status(403).json({ message: "Unauthorized" });
+
     if (item.photo) {
-      const filePath = path.join(__dirname, "..", "public", item.photo);
-      fs.unlink(filePath, (err) => { /* ignore errors */ });
+      await gfs.delete(new mongoose.Types.ObjectId(item.photo));
     }
 
-    await Item.findByIdAndDelete(req.params.id);
-    res.json({ message: "Deleted" });
-  } catch (err) {
-    console.error(err);
+    await item.deleteOne();
+    res.json({ message: "Item deleted successfully" });
+  } catch {
     res.status(500).json({ message: "Server error" });
   }
 };

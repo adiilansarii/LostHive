@@ -25,7 +25,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await api.post("/auth/logout");
-      setUser(null);q
+      setUser(null);
       setOpen(false); // Close menu on logout
       navigate("/login");
     } catch (err) {

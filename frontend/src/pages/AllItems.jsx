@@ -4,6 +4,7 @@ import api from "../api/axios.js";
 import ItemCard from "../components/ItemCard.jsx";
 import Loader from "../components/Loader.jsx";
 import { AuthContext } from "../context/AuthContext";
+import { getImageUrl } from "../utils/getImageUrl";
 
 export default function AllItems() {
   const [items, setItems] = useState([]);
@@ -11,13 +12,6 @@ export default function AllItems() {
   const { user } = useContext(AuthContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = useState(searchParams.get("filter") || "all");
-
-  const getImageUrl = (path) => {
-    if (!path) return "/sample/default.jpg";
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `${baseUrl}${cleanPath}`;
-  };
 
   useEffect(() => {
     api.get("/items")

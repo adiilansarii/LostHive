@@ -1,13 +1,36 @@
 const mongoose = require("mongoose");
 
-const connectDB = async (mongoUri) => {
+let gfs; // GridFS instance
+
+const connectDB = async (mongoURI) => {
   try {
-    await mongoose.connect(mongoUri);
-    console.log("MongoDB connected");
-  } catch (err) {
-    console.error("MongoDB connection error:", err);
+    const conn = await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+
+    // Initialize GridFSBucket
+    gfs = new mongoose.mongo.GridFSBucket(conn.connection.db, {
+      bucketName: "uploads",
+    });
+
+  } catch (error) {
+    console.error("MongoDB Connection Error:", error.message);
     process.exit(1);
   }
 };
 
-module.exports = connectDB;
+// Function to access GridFS anywhere in the app
+const getGFS = () => {
+  if (!gfs) {
+    throw new Error("GridFS is not initialized. Ensure DB is connected.");
+  }
+  return gfs;
+};
+
+module.exports = {
+  connectDB,
+  getGFS,
+};
